@@ -1,12 +1,12 @@
 package org.example.sortings;
 
 import org.example.metrics.Metrics;
+import org.example.util.TestHelper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.function.Consumer;
 
 public class MergeSortTest {
 
@@ -15,45 +15,35 @@ public class MergeSortTest {
     @Test
     void testEmptyArray() {
         int[] arr = {};
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
         assertArrayEquals(new int[]{}, arr);
     }
 
     @Test
     void testSingleElement() {
         int[] arr = {42};
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
         assertArrayEquals(new int[]{42}, arr);
     }
 
     @Test
     void testAlreadySorted() {
         int[] arr = {1, 2, 3, 4, 5};
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
         assertArrayEquals(new int[]{1, 2, 3, 4, 5}, arr);
     }
 
     @Test
     void testReverseSorted() {
         int[] arr = {5, 4, 3, 2, 1};
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
         assertArrayEquals(new int[]{1, 2, 3, 4, 5}, arr);
     }
 
     @Test
     void testAllEqual() {
         int[] arr = {7, 7, 7, 7, 7};
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
         assertArrayEquals(new int[]{7, 7, 7, 7, 7}, arr);
     }
 
@@ -63,9 +53,7 @@ public class MergeSortTest {
         int[] arr = rnd.ints(N, -1000, 1000).toArray();
         int[] expected = Arrays.copyOf(arr, arr.length);
 
-        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> {
-            MergeSort.mergeSort(arr, metrics);
-        });
+        TestHelper.runWithMetrics("MergeSort", arr.length, metrics -> MergeSort.mergeSort(arr, metrics));
 
         Arrays.sort(expected);
         assertArrayEquals(expected, arr);
@@ -76,9 +64,7 @@ public class MergeSortTest {
         Random rnd = new Random(123);
         int[] arr = rnd.ints(N, -1000, 1000).toArray();
 
-        Metrics metrics = TestHelper.runWithMetrics("MergeSort", arr.length, m -> {
-            MergeSort.mergeSort(arr, m);
-        });
+        Metrics metrics = TestHelper.runWithMetrics("MergeSort", arr.length, m -> MergeSort.mergeSort(arr, m));
 
         int depth = metrics.getMaxDepth();
         int log2n = (int) (Math.log(N) / Math.log(2));
@@ -87,19 +73,4 @@ public class MergeSortTest {
                 "Recursion depth too large: " + depth + " (bound = " + (log2n + 5) + ")");
     }
 
-    public class TestHelper {
-        public static Metrics runWithMetrics(String algoName, int size, Consumer<Metrics> algo) {
-            Metrics metrics = new Metrics();
-            metrics.reset();
-            metrics.startTimer();
-
-            algo.accept(metrics);
-
-            metrics.stopTimer();
-            metrics.addRecord(algoName, size);
-            System.out.println(metrics.getRecords());
-
-            return metrics;
-        }
-    }
 }

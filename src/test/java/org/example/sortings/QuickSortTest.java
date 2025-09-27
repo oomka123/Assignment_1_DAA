@@ -1,11 +1,11 @@
 package org.example.sortings;
 
 import org.example.metrics.Metrics;
+import org.example.util.TestHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,19 +70,4 @@ class QuickSortTest {
         runAndCheck("QuickSort-Duplicates", arr);
     }
 
-    public class TestHelper {
-        public static Metrics runWithMetrics(String algoName, int size, Consumer<Metrics> algo) {
-            Metrics metrics = new Metrics();
-            metrics.reset();
-            metrics.startTimer();
-
-            algo.accept(metrics);
-
-            metrics.stopTimer();
-            metrics.addRecord(algoName, size);
-            System.out.println(metrics.getRecords());
-
-            return metrics;
-        }
-    }
 }
