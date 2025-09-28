@@ -25,6 +25,58 @@ class ClosestPairTest {
     }
 
     @Test
+    void testEmptyArray() {
+        ClosestPair.Point[] pts = new ClosestPair.Point[0];
+        Metrics metrics = new Metrics();
+        assertThrows(IllegalArgumentException.class,
+                () -> ClosestPair.closestPair(pts, metrics));
+    }
+
+    @Test
+    void testSinglePoint() {
+        ClosestPair.Point[] pts = { new ClosestPair.Point(0, 0) };
+        Metrics metrics = new Metrics();
+        assertThrows(IllegalArgumentException.class,
+                () -> ClosestPair.closestPair(pts, metrics));
+    }
+
+    @Test
+    void testDuplicatePoints() {
+        ClosestPair.Point[] pts = {
+                new ClosestPair.Point(1, 1),
+                new ClosestPair.Point(1, 1),
+                new ClosestPair.Point(2, 2)
+        };
+        Metrics metrics = new Metrics();
+        double result = ClosestPair.closestPair(pts, metrics);
+        assertEquals(0.0, result, 1e-9, "Duplicate points should give distance 0");
+    }
+
+    @Test
+    void testTwoPoints() {
+        ClosestPair.Point[] pts = {
+                new ClosestPair.Point(0, 0),
+                new ClosestPair.Point(3, 4)
+        };
+        Metrics metrics = new Metrics();
+        double result = ClosestPair.closestPair(pts, metrics);
+        assertEquals(5.0, result, 1e-9);
+    }
+
+    @Test
+    void testThreePoints() {
+        ClosestPair.Point[] pts = {
+                new ClosestPair.Point(0, 0),
+                new ClosestPair.Point(3, 4),
+                new ClosestPair.Point(6, 8)
+        };
+        Metrics metrics = new Metrics();
+        double result = ClosestPair.closestPair(pts, metrics);
+        assertEquals(5.0, result, 1e-9);
+    }
+
+
+    @Test
     void testSmallNMatchesBruteForce() {
         for (int trial = 0; trial < 20; trial++) {
             int n = rand.nextInt(500) + 2;

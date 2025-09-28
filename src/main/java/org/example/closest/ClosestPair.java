@@ -21,6 +21,10 @@ public class ClosestPair {
     }
 
     public static double closestPair(Point[] points, Metrics metrics) {
+        if (points.length < 2) {
+            throw new IllegalArgumentException("At least 2 points required");
+        }
+
         metrics.incAllocations();
         Point[] sortedByX = points.clone();
         Arrays.sort(sortedByX, Comparator.comparingDouble(p -> p.x));

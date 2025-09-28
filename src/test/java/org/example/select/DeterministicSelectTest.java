@@ -13,6 +13,34 @@ class DeterministicSelectTest {
 
     private static final Random rand = new Random();
 
+    @RepeatedTest(10)
+    void testSmallArrays() {
+        int[] arr = {42};
+        Metrics metrics = new Metrics();
+        int selected = DeterministicSelect.select(arr, 0, arr.length - 1, 1, metrics);
+        assertEquals(42, selected, "Single-element array should return the element itself");
+    }
+
+    @RepeatedTest(10)
+    void testDuplicates() {
+        int[] arr = {5, 5, 5, 5, 5};
+        Metrics metrics = new Metrics();
+        int k = 3;
+        int selected = DeterministicSelect.select(arr, 0, arr.length - 1, k, metrics);
+        assertEquals(5, selected, "All-equal elements should return the repeated value");
+    }
+
+    @RepeatedTest(10)
+    void testNegativeNumbers() {
+        int[] arr = {-10, -20, -30, -5};
+        Metrics metrics = new Metrics();
+        int selected = DeterministicSelect.select(arr, 0, arr.length - 1, 2, metrics);
+        Arrays.sort(arr);
+        int expected = arr[1];
+        assertEquals(expected, selected, "Handles negative numbers correctly");
+    }
+
+
     @RepeatedTest(100)
     void testDeterministicSelectAgainstSort() {
         int n = rand.nextInt(200) + 50;
