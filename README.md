@@ -1,6 +1,6 @@
-#Design and Analysis of Algorithms — Assignment 1
+# Design and Analysis of Algorithms — Assignment 1
 
-##How to Use
+## How to Use
 
 Build:
 
@@ -30,17 +30,17 @@ java -jar target/benchmarks.jar
 
 ---
 
-##Architecture Overview
+## Architecture Overview
 
 This project implements four classic divide-and-conquer algorithms, with a focus on safe recursion patterns and performance measurement.
 
-###Metrics Collected
+### Metrics Collected
 - **Time (JMH)**: nanosecond precision, average per operation (ms/op).<br>
 - **Recursion Depth**: tracked to ensure bounded stack growth.
 - **Allocations: MergeSort** reuses a buffer; QuickSort and Select work in-place.
 - **Comparisons**: counted in merge and partition operations.
 
-###Recursion Safety
+### Recursion Safety
 - **MergeSort**: switches to insertion sort for small n to reduce overhead.
 - **QuickSort**: always recurses on the smaller partition, iterates on the larger one → stack depth O(log n) typical.
 - **Deterministic Select**: only recurses into the relevant side of the partition.
@@ -48,7 +48,7 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 
 ---
 
-##Recurrence Analysis
+## Recurrence Analysis
 
 - **MergeSort**
   - Recurrence: `T(n) = 2T(n/2) + Θ(n)`
@@ -88,9 +88,9 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 
 ---
 
-##Experimental Results
+## Experimental Results
 
-###JMH Benchmarks (ms/op)###
+### JMH Benchmarks (ms/op)###
 
 |Algorithm	            |n=1,000	|n=10,000	|n=100,000|
 |-----------------------|---------|---------|---------|
@@ -100,7 +100,7 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 |Deterministic Select	  |0.006	  |0.063	  |1.248    |
 |Closest Pair of Points	|0.176	  |2.376	  |30.428   |
 
-###Observations
+### Observations
 
 - Scaling:
   - MergeSort and QuickSort follow Θ(n log n) with nearly identical growth.
@@ -119,7 +119,7 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 
 ---
 
-##Validation & Testing
+## Validation & Testing
 - Sorting correctness: verified against Arrays.sort() on random, sorted, and reverse-sorted inputs.
 - Select correctness: validated by comparing with sort+pick; deterministic pivot ensures reproducibility.
 - Closest Pair correctness: cross-checked with brute force for small n.
@@ -127,7 +127,7 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 
 ---
 
-##Theoretical vs Experimental Alignment
+## Theoretical vs Experimental Alignment
 - Strong alignment: asymptotic trends (n log n for sorts, n for Select) are confirmed.
 - Mismatches:
   - For small n, constants dominate (QuickSort faster than MergeSort until ~100k).
@@ -136,7 +136,7 @@ This project implements four classic divide-and-conquer algorithms, with a focus
 
 ---
 
-##Conclusion
+## Conclusion
 
 This project demonstrates the classical divide-and-conquer algorithms with both theoretical analysis and experimental validation.
 - MergeSort & QuickSort: asymptotically similar; QuickSort often faster in practice.
